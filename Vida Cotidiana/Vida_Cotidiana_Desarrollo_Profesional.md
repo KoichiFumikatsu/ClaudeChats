@@ -160,6 +160,29 @@ Archivos en esta misma carpeta:
 
 ---
 
+## Páginas Web Generadas (2026-04-07)
+
+### CV Preview — `cv_preview.html`
+- Página HTML para visualizar ambos CVs con diseño tipo revista/creativo
+- Estilo inspirado en template con formas decorativas rosa, fondo crema, acentos verdes
+- Layout dos columnas: sidebar izquierdo (contacto, habilidades, idiomas con barras) + contenido derecho (experiencia timeline, educación)
+- Títulos de sección en cápsulas redondeadas con borde
+- Tabs para alternar entre CV IC y CV Liderazgo
+- Nombre grande en Playfair Display, tipografía Inter para cuerpo
+- Responsive + print-ready
+
+### Portfolio — `portfolio.html`
+- Portafolio profesional estilo minimalist dark mode
+- Inspirado en devportfoliotemplates.com/portfolio-templates/minimalist
+- Split-screen: panel izquierdo fijo (identidad, contacto, nav) + panel derecho scrolleable
+- Secciones: Core Skills (pill tags), Projects (cards con hover), Experience (timeline), GitHub Repos, Education
+- 6 proyectos destacados: AZCKeeper, KelsieApp, Localfy, DSL, Altergeist, ModularAZC
+- 9 repos de GitHub listados con badges de lenguaje
+- Links a GitHub, email, LinkedIn
+- Todo en una sola página HTML, sin dependencias externas (solo Google Fonts)
+
+---
+
 ## Pendientes
 
 - [ ] Nombre del proyecto inmobiliario en GitHub (Localfy)
@@ -170,3 +193,5 @@ Archivos en esta misma carpeta:
 - [ ] Certificación CompTIA Network+ o A+
 - [ ] Plan de dependencias operativas (siguiente paso con Claude)
 - [ ] PDF final de CVs cuando contenido esté aprobado
+- [ ] Actualizar portfolio.html cuando se suba Localfy a GitHub
+- [ ] Agregar URL de LinkedIn real al portfolio

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVs — Koichi Fumikatsu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --cream: #faf5ef;
+            --pink: #f2b8c6;
+            --pink-light: #f8d7e0;
+            --green: #1a5c3a;
+            --green-light: #2d8a5e;
+            --text: #2d2d2d;
+            --text-light: #555;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #e8e0d8;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        /* ===== Tab Navigation ===== */
+        .tab-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--green);
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+        }
+
+        .tab-btn {
+            padding: 14px 36px;
+            background: transparent;
+            color: rgba(255,255,255,0.65);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover { color: #fff; }
+        .tab-btn.active { color: #fff; border-bottom-color: var(--pink); }
+
+        .cv-tab { display: none; }
+        .cv-tab.active { display: block; }
+
+        /* ===== CV Page ===== */
+        .cv-page {
+            width: 800px;
+            max-width: 100%;
+            margin: 36px auto;
+            background: var(--cream);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.12);
+            position: relative;
+            overflow: hidden;
+            min-height: 1100px;
+        }
+
+        /* ===== Decorative Pink Blobs ===== */
+        .blob-tl {
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            width: 200px;
+            height: 200px;
+            background: var(--pink);
+            border-radius: 50% 50% 50% 20%;
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        .blob-tr {
+            position: absolute;
+            top: -30px;
+            right: -50px;
+            width: 160px;
+            height: 280px;
+            background: var(--pink-light);
+            border-radius: 50% 30% 50% 70%;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        .blob-br {
+            position: absolute;
+            bottom: -60px;
+            right: -40px;
+            width: 180px;
+            height: 180px;
+            background: var(--pink);
+            border-radius: 50% 20% 50% 50%;
+            opacity: 0.45;
+            z-index: 1;
+        }
+
+        .blob-bl {
+            position: absolute;
+            bottom: -30px;
+            left: 30%;
+            width: 120px;
+            height: 120px;
+            background: var(--pink-light);
+            border-radius: 50%;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        /* ===== Layout ===== */
+        .cv-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 1100px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== Header (spans full width) ===== */
+        .cv-header {
+            grid-column: 1 / -1;
+            padding: 48px 44px 32px 44px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .cv-name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: var(--text);
+            line-height: 1.05;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .cv-title {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-top: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cv-profile {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-top: 14px;
+            max-width: 480px;
+            text-align: justify;
+        }
+
+        /* ===== Left Sidebar ===== */
+        .cv-left {
+            padding: 0 28px 40px 36px;
+        }
+
+        /* ===== Right Content ===== */
+        .cv-right {
+            padding: 0 36px 40px 20px;
+        }
+
+        /* ===== Section Title (capsule style) ===== */
+        .section-title {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--text);
+            border: 2px solid var(--text);
+            border-radius: 99px;
+            padding: 6px 20px;
+            margin-bottom: 18px;
+        }
+
+        .section { margin-bottom: 28px; }
+
+        /* ===== Contact ===== */
+        .contact-list { list-style: none; }
+
+        .contact-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12.5px;
+            color: var(--text);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .contact-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        /* ===== Skills (bullet list) ===== */
+        .skills-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skills-list li {
+            font-size: 12.5px;
+            color: var(--text);
+            padding-left: 14px;
+            position: relative;
+            margin-bottom: 6px;
+            line-height: 1.55;
+        }
+
+        .skills-list li::before {
+            content: '\2022';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* ===== Language Bars ===== */
+        .lang-item {
+            margin-bottom: 10px;
+        }
+
+        .lang-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+
+        .lang-name {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .lang-pct {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .lang-bar {
+            height: 8px;
+            background: #e0d6cc;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .lang-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+
+        .lang-fill.green { background: var(--green); }
+        .lang-fill.pink { background: var(--pink); }
+
+        /* ===== Experience Timeline ===== */
+        .exp-item {
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .exp-item:last-child { margin-bottom: 0; }
+
+        .exp-date {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+            text-transform: uppercase;
+            line-height: 1.45;
+            padding-top: 2px;
+        }
+
+        .exp-content {}
+
+        .exp-company {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .exp-company::before {
+            content: '\2022';
+            color: var(--green);
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .exp-role {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .exp-desc {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-top: 3px;
+        }
+
+        .exp-bullets {
+            list-style: none;
+            padding: 0;
+            margin-top: 4px;
+        }
+
+        .exp-bullets li {
+            font-size: 11.5px;
+            color: var(--text-light);
+            line-height: 1.55;
+            margin-bottom: 2px;
+            padding-left: 10px;
+            position: relative;
+        }
+
+        .exp-bullets li::before {
+            content: '–';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        /* ===== Education Timeline ===== */
+        .edu-item {
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .edu-date {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+            padding-top: 2px;
+        }
+
+        .edu-content {}
+
+        .edu-school {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .edu-school::before {
+            content: '\2022';
+            color: var(--green);
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .edu-degree {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* ===== Projects ===== */
+        .project-item { margin-bottom: 14px; }
+
+        .project-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .project-stack {
+            font-size: 11px;
+            color: var(--green);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .project-desc {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.55;
+        }
+
+        /* ===== Key Achievements (lead CV) ===== */
+        .achievement-item {
+            margin-bottom: 10px;
+        }
+
+        .achievement-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .achievement-desc {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* ===== Print ===== */
+        @media print {
+            .tab-bar { display: none; }
+            .cv-tab { display: block !important; page-break-after: always; }
+            .cv-page { box-shadow: none; margin: 0; width: 100%; }
+            body { background: white; }
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 820px) {
+            .cv-page { margin: 16px 8px; }
+            .cv-layout { grid-template-columns: 1fr; }
+            .cv-left { padding: 0 28px 20px; }
+            .cv-right { padding: 0 28px 28px; }
+            .cv-header { padding: 32px 28px 24px; }
+            .cv-name { font-size: 32px; }
+            .cv-profile { max-width: 100%; }
+            .blob-tl { width: 120px; height: 120px; }
+            .blob-tr { width: 100px; height: 160px; }
+            .tab-btn { padding: 12px 20px; font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('ic')">Individual Contributor</button>
+    <button class="tab-btn" onclick="showTab('lead')">Liderazgo T&eacute;cnico</button>
+</div>
+
+<!-- ======================== CV IC ======================== -->
+<div id="tab-ic" class="cv-tab active">
+<div class="cv-page">
+    <!-- Decorative blobs -->
+    <div class="blob-tl"></div>
+    <div class="blob-tr"></div>
+    <div class="blob-br"></div>
+    <div class="blob-bl"></div>
+
+    <div class="cv-layout">
+
+        <!-- Header -->
+        <div class="cv-header">
+            <div class="cv-name">Koichi<br>Fumikatsu</div>
+            <div class="cv-title">IT Infrastructure Engineer &amp; Sysadmin</div>
+            <p class="cv-profile">
+                Ingeniero generalista de infraestructura IT con +3 a&ntilde;os de experiencia en dise&ntilde;o, implementaci&oacute;n y administraci&oacute;n de redes, servidores Linux y soluciones VoIP en entornos multi-sede. Perfil transversal que combina administraci&oacute;n de sistemas, desarrollo backend y automatizaci&oacute;n.
+            </p>
+        </div>
+
+        <!-- Left Sidebar -->
+        <div class="cv-left">
+
+            <div class="section">
+                <div class="section-title">Contacto</div>
+                <ul class="contact-list">
+                    <li><span class="contact-icon">&#9742;</span> +57 302 244 9235</li>
+                    <li><span class="contact-icon">&#9993;</span> fumikatsu.koichi@gmail.com</li>
+                    <li><span class="contact-icon">&#9906;</span> Cali, Colombia</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Habilidades</div>
+                <ul class="skills-list">
+                    <li>TP-Link Omada SDN, Multi-WAN, VLANs</li>
+                    <li>Ubuntu, Nginx, Nextcloud, Hestia CP</li>
+                    <li>PHP MVC, C# .NET 8, MySQL</li>
+                    <li>REST APIs, Webhooks, Discord Bots</li>
+                    <li>Grandstream UCM, SIP Trunking</li>
+                    <li>DNS, MX, DMARC, SPF</li>
+                    <li>RAID 1, Servidores en producci&oacute;n</li>
+                    <li>Cableado estructurado, DVR/c&aacute;maras</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Idiomas</div>
+                <div class="lang-item">
+                    <div class="lang-header">
+                        <span class="lang-name">Espa&ntilde;ol</span>
+                        <span class="lang-pct">Nativo</span>
+                    </div>
+                    <div class="lang-bar"><div class="lang-fill green" style="width: 100%"></div></div>
+                </div>
+                <div class="lang-item">
+                    <div class="lang-header">
+                        <span class="lang-name">Ingl&eacute;s</span>
+                        <span class="lang-pct">A2</span>
+                    </div>
+                    <div class="lang-bar"><div class="lang-fill green" style="width: 30%"></div></div>
+                </div>
+                <div class="lang-item">
+                    <div class="lang-header">
+                        <span class="lang-name">Japon&eacute;s</span>
+                        <span class="lang-pct">A1</span>
+                    </div>
+                    <div class="lang-bar"><div class="lang-fill pink" style="width: 15%"></div></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Proyectos</div>
+                <div class="project-item">
+                    <div class="project-name">AZCKeeper</div>
+                    <div class="project-stack">C# .NET 8 &middot; PHP MVC &middot; MySQL</div>
+                    <div class="project-desc">App monitoreo empleados + panel web admin. En producci&oacute;n.</div>
+                </div>
+                <div class="project-item">
+                    <div class="project-name">Localfy</div>
+                    <div class="project-stack">PHP &middot; JS &middot; REST API</div>
+                    <div class="project-desc">Marketplace de locales comerciales. Backend REST API.</div>
+                </div>
+                <div class="project-item">
+                    <div class="project-name">KelsieApp</div>
+                    <div class="project-stack">Next.js &middot; Supabase &middot; Vercel</div>
+                    <div class="project-desc">App gesti&oacute;n personal integral. Arquitectura y visi&oacute;n de producto.</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Content -->
+        <div class="cv-right">
+
+            <div class="section">
+                <div class="section-title">Experiencia</div>
+
+                <div class="exp-item">
+                    <div class="exp-date">2022 AL<br>PRESENTE</div>
+                    <div class="exp-content">
+                        <div class="exp-company">Grupo AZC S.A.S</div>
+                        <div class="exp-role">IT Infrastructure Engineer</div>
+                        <ul class="exp-bullets">
+                            <li>Dise&ntilde;&eacute; infraestructura de red completa para 7 sedes en 2 ciudades con Omada SDN, VLANs y multi-WAN</li>
+                            <li>Administr&eacute; servidores Linux en producci&oacute;n: Nextcloud (RAID 1), web, correo con Nginx + Hestia</li>
+                            <li>Configur&eacute; VoIP corporativo con Grandstream UCM 6308 y troncales SIP entre sedes</li>
+                            <li>Desarroll&eacute; app de monitoreo (AZCKeeper) con C# .NET 8, PHP MVC y MySQL</li>
+                            <li>Cr&eacute;e herramientas web internas y automatizaciones con APIs REST, webhooks y bots</li>
+                            <li>Gestion&eacute; DNS, MX, DMARC, SPF y entregabilidad de correo corporativo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-date">MAR 2021<br>DIC 2021</div>
+                    <div class="exp-content">
+                        <div class="exp-company">Siesa</div>
+                        <div class="exp-role">Soporte IT Remoto (L1/L2)</div>
+                        <ul class="exp-bullets">
+                            <li>Soporte t&eacute;cnico remoto para usuarios de plataforma ERP empresarial</li>
+                            <li>Diagn&oacute;stico y resoluci&oacute;n de incidencias de red, configuraci&oacute;n y acceso</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Educaci&oacute;n</div>
+
+                <div class="edu-item">
+                    <div class="edu-date">2019 —<br>PRESENTE</div>
+                    <div class="edu-content">
+                        <div class="edu-school">Universidad Aut&oacute;noma de Occidente</div>
+                        <div class="edu-degree">Ingenier&iacute;a Multimedia — 7.&deg; semestre</div>
+                    </div>
+                </div>
+
+                <div class="edu-item">
+                    <div class="edu-date">2025</div>
+                    <div class="edu-content">
+                        <div class="edu-school">MINTIC &middot; Parquesoft</div>
+                        <div class="edu-degree">Desarrollo de Software</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+
+<!-- ======================== CV LIDERAZGO ======================== -->
+<div id="tab-lead" class="cv-tab">
+<div class="cv-page">
+    <!-- Decorative blobs -->
+    <div class="blob-tl"></div>
+    <div class="blob-tr"></div>
+    <div class="blob-br"></div>
+    <div class="blob-bl"></div>
+
+    <div class="cv-layout">
+
+        <!-- Header -->
+        <div class="cv-header">
+            <div class="cv-name">Koichi<br>Fumikatsu</div>
+            <div class="cv-title">IT Team Lead &amp; Technical Project Manager</div>
+            <p class="cv-profile">
+                L&iacute;der de IT con +3 a&ntilde;os gestionando la transformaci&oacute;n tecnol&oacute;gica de una firma legal de 20 a 200+ usuarios en 7 sedes. Responsable de estrategia de infraestructura, contrataci&oacute;n y desarrollo del equipo de soporte, y definici&oacute;n de roadmaps t&eacute;cnicos. Escal&eacute; el departamento de IT de 1 persona a un equipo estructurado por niveles.
+            </p>
+        </div>
+
+        <!-- Left Sidebar -->
+        <div class="cv-left">
+
+            <div class="section">
+                <div class="section-title">Contacto</div>
+                <ul class="contact-list">
+                    <li><span class="contact-icon">&#9742;</span> +57 302 244 9235</li>
+                    <li><span class="contact-icon">&#9993;</span> fumikatsu.koichi@gmail.com</li>
+                    <li><span class="contact-icon">&#9906;</span> Cali, Colombia</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Competencias</div>
+                <ul class="skills-list">
+                    <li>Liderazgo de equipos de IT</li>
+                    <li>Contrataci&oacute;n y onboarding</li>
+                    <li>Roadmaps t&eacute;cnicos</li>
+                    <li>Revisi&oacute;n de arquitectura</li>
+                    <li>Gap analysis</li>
+                    <li>Operaciones multi-sede</li>
+                    <li>Gesti&oacute;n de presupuesto TI</li>
+                    <li>Documentaci&oacute;n de procesos</li>
+                    <li>Adopci&oacute;n de flujos con IA</li>
+                    <li>Infraestructura de redes</li>
+                    <li>Administraci&oacute;n Linux</li>
+                    <li>Sistemas VoIP</li>
+                    <li>Desarrollo backend</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Idiomas</div>
+                <div class="lang-item">
+                    <div class="lang-header">
+                        <span class="lang-name">Espa&ntilde;ol</span>
+                        <span class="lang-pct">Nativo</span>
+                    </div>
+                    <div class="lang-bar"><div class="lang-fill green" style="width: 100%"></div></div>
+                </div>
+                <div class="lang-item">
+                    <div class="lang-header">
+                        <span class="lang-name">Ingl&eacute;s</span>
+                        <span class="lang-pct">A2</span>
+                    </div>
+                    <div class="lang-bar"><div class="lang-fill green" style="width: 30%"></div></div>
+                </div>
+                <div class="lang-item">
+                    <div class="lang-header">
+                        <span class="lang-name">Japon&eacute;s</span>
+                        <span class="lang-pct">A1</span>
+                    </div>
+                    <div class="lang-bar"><div class="lang-fill pink" style="width: 15%"></div></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Logros Clave</div>
+                <div class="achievement-item">
+                    <div class="achievement-label">&times;10 en escala</div>
+                    <div class="achievement-desc">De 20 a 200+ usuarios en 7 sedes</div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-label">Equipo desde cero</div>
+                    <div class="achievement-desc">De &uacute;nico IT a equipo L1/L2/L3</div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-label">Infra completa</div>
+                    <div class="achievement-desc">Red, servidores, VoIP, correo</div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-label">Tools propias</div>
+                    <div class="achievement-desc">Apps internas en producci&oacute;n</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Content -->
+        <div class="cv-right">
+
+            <div class="section">
+                <div class="section-title">Experiencia</div>
+
+                <div class="exp-item">
+                    <div class="exp-date">2022 AL<br>PRESENTE</div>
+                    <div class="exp-content">
+                        <div class="exp-company">Grupo AZC S.A.S</div>
+                        <div class="exp-role">L&iacute;der de IT</div>
+                        <ul class="exp-bullets">
+                            <li>Escal&eacute; el depto. de IT de operaci&oacute;n unipersonal a equipo de 4 t&eacute;cnicos en niveles L1, L2 y L3</li>
+                            <li>Lider&eacute; expansi&oacute;n tecnol&oacute;gica de 1 sede (20 usuarios) a 7 sedes en 2 ciudades (200+ usuarios)</li>
+                            <li>Gestion&eacute; ciclos de contrataci&oacute;n, onboarding, traslados y redistribuci&oacute;n del equipo</li>
+                            <li>Dise&ntilde;&eacute; e implement&eacute; infra multi-sede: Omada SDN, VLANs, multi-WAN, cableado estructurado</li>
+                            <li>Dirig&iacute; montaje de servidores: Nextcloud RAID 1, correo, web, VoIP con UCM 6308</li>
+                            <li>Desarroll&eacute; herramientas internas (AZCKeeper, DSL) para monitoreo y diagn&oacute;stico</li>
+                            <li>Report&eacute; directamente a gerencia general con entregables y gesti&oacute;n de presupuesto TI</li>
+                            <li>Implement&eacute; adopci&oacute;n de flujos de trabajo con IA generativa para el equipo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-date">MAR 2021<br>DIC 2021</div>
+                    <div class="exp-content">
+                        <div class="exp-company">Siesa</div>
+                        <div class="exp-role">Soporte IT Remoto (L1/L2)</div>
+                        <ul class="exp-bullets">
+                            <li>Soporte t&eacute;cnico remoto para usuarios de plataforma ERP empresarial</li>
+                            <li>Diagn&oacute;stico y resoluci&oacute;n de incidencias t&eacute;cnicas nivel 1 y 2</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Educaci&oacute;n</div>
+
+                <div class="edu-item">
+                    <div class="edu-date">2025</div>
+                    <div class="edu-content">
+                        <div class="edu-school">Polit&eacute;cnico de Colombia</div>
+                        <div class="edu-degree">Gerencia de Proyectos — en curso</div>
+                    </div>
+                </div>
+
+                <div class="edu-item">
+                    <div class="edu-date">2019 —<br>PRESENTE</div>
+                    <div class="edu-content">
+                        <div class="edu-school">Universidad Aut&oacute;noma de Occidente</div>
+                        <div class="edu-degree">Ingenier&iacute;a Multimedia — 7.&deg; semestre</div>
+                    </div>
+                </div>
+
+                <div class="edu-item">
+                    <div class="edu-date">2025</div>
+                    <div class="edu-content">
+                        <div class="edu-school">MINTIC &middot; Parquesoft</div>
+                        <div class="edu-degree">Desarrollo de Software</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Proyectos</div>
+
+                <div class="project-item">
+                    <div class="project-name">AZCKeeper — App de monitoreo</div>
+                    <div class="project-stack">C# .NET 8 &middot; PHP MVC &middot; MySQL</div>
+                    <div class="project-desc">Definici&oacute;n de requerimientos, arquitectura y desarrollo de app escritorio + panel web.</div>
+                </div>
+                <div class="project-item">
+                    <div class="project-name">Expansi&oacute;n multi-sede</div>
+                    <div class="project-stack">Omada SDN &middot; VoIP &middot; Servidores Linux</div>
+                    <div class="project-desc">Planificaci&oacute;n y ejecuci&oacute;n de infraestructura completa para 6 sedes nuevas.</div>
+                </div>
+                <div class="project-item">
+                    <div class="project-name">Localfy — Marketplace</div>
+                    <div class="project-stack">PHP &middot; JS &middot; REST API</div>
+                    <div class="project-desc">Backend REST API para marketplace de locales comerciales en producci&oacute;n.</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+
+<script>
+    function showTab(tabId) {
+        document.querySelectorAll('.cv-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+        const btns = document.querySelectorAll('.tab-btn');
+        if (tabId === 'ic') btns[0].classList.add('active');
+        else btns[1].classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

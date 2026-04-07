@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koichi Fumikatsu — Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg: #0f1117;
+            --bg-panel: #111318;
+            --surface: #1a1d27;
+            --border: #1e2130;
+            --border-light: #272b3a;
+            --text: #f0f0f3;
+            --text-2: #c0c3ce;
+            --text-3: #8b8fa3;
+            --text-4: #5f6378;
+            --dot: #4a4e63;
+            --ring: #2a2e40;
+            --tag-bg: #181b25;
+            --green: #4ade80;
+            --blue: #60a5fa;
+            --purple: #a78bfa;
+            --orange: #fb923c;
+            --pink: #f472b6;
+            --cyan: #22d3ee;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===========================
+           LAYOUT: split-screen
+           =========================== */
+        .layout {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            min-height: 100vh;
+        }
+
+        /* ===== LEFT PANEL ===== */
+        .panel-left {
+            border-right: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 40px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .profile { max-width: 320px; }
+
+        .profile-name {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .profile-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-3);
+            margin-bottom: 12px;
+        }
+
+        .profile-bio {
+            font-size: 13.5px;
+            color: var(--text-3);
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .profile-info {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .profile-info li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-3);
+            margin-bottom: 8px;
+        }
+
+        .profile-info li svg { flex-shrink: 0; opacity: 0.6; }
+
+        .profile-info li a {
+            color: var(--text-2);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .profile-info li a:hover { color: var(--text); }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .social-links a {
+            color: var(--text-4);
+            transition: color 0.2s;
+        }
+
+        .social-links a:hover { color: var(--text); }
+
+        /* Nav links in left panel */
+        .nav-links {
+            list-style: none;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .nav-links li { margin-bottom: 6px; }
+
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-4);
+            text-decoration: none;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a:hover { color: var(--text-2); }
+
+        .nav-links .nav-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--dot);
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover .nav-dot { background: var(--text-3); }
+
+        /* ===== RIGHT PANEL ===== */
+        .panel-right {
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .content-section {
+            padding: 48px 48px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: var(--border-light);
+            margin-top: 8px;
+            margin-bottom: 24px;
+        }
+
+        /* ===== SKILLS ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .skill-category {}
+
+        .skill-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .skill-icon svg { opacity: 0.5; }
+
+        .skill-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-3);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            font-size: 12.5px;
+            font-weight: 500;
+            background: var(--tag-bg);
+            color: var(--text-2);
+            border-radius: 99px;
+            border: 1px solid var(--ring);
+            transition: border-color 0.2s;
+        }
+
+        .tag:hover { border-color: var(--border-light); }
+
+        /* ===== PROJECTS ===== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            transition: border-color 0.2s, transform 0.15s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-2px);
+        }
+
+        .project-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .project-card-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .project-card-arrow {
+            color: var(--text-4);
+            transition: color 0.2s, transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .project-card:hover .project-card-arrow {
+            color: var(--text-2);
+            transform: translate(2px, -2px);
+        }
+
+        .project-card-desc {
+            font-size: 12.5px;
+            color: var(--text-3);
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 12px;
+        }
+
+        .project-card-footer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .project-lang {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11.5px;
+            color: var(--text-4);
+        }
+
+        .lang-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .lang-dot.typescript { background: #3178c6; }
+        .lang-dot.php { background: #7b7fb5; }
+        .lang-dot.csharp { background: #68217a; }
+        .lang-dot.javascript { background: #f1e05a; }
+        .lang-dot.css { background: #563d7c; }
+        .lang-dot.html { background: #e34c26; }
+        .lang-dot.nextjs { background: var(--text); }
+
+        .project-tag {
+            font-size: 10.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--text-3);
+            background: var(--tag-bg);
+            border: 1px solid var(--ring);
+        }
+
+        .project-tag.prod { color: var(--green); border-color: rgba(74,222,128,0.2); background: rgba(74,222,128,0.06); }
+        .project-tag.dev { color: var(--orange); border-color: rgba(251,146,60,0.2); background: rgba(251,146,60,0.06); }
+        .project-tag.game { color: var(--purple); border-color: rgba(167,139,250,0.2); background: rgba(167,139,250,0.06); }
+
+        /* ===== EXPERIENCE TIMELINE ===== */
+        .timeline { position: relative; }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 20px;
+            padding-bottom: 28px;
+            border-left: 2px solid var(--border-light);
+        }
+
+        .timeline-item:last-child { padding-bottom: 0; }
+
+        .timeline-dot {
+            position: absolute;
+            left: -5px;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--dot);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .timeline-role {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .timeline-date {
+            font-size: 12.5px;
+            color: var(--text-4);
+        }
+
+        .timeline-company {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-2);
+            margin-bottom: 6px;
+        }
+
+        .timeline-desc {
+            font-size: 12.5px;
+            color: var(--text-3);
+            line-height: 1.65;
+        }
+
+        /* ===== REPOS (GitHub) ===== */
+        .repos-list {}
+
+        .repo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            transition: opacity 0.2s;
+        }
+
+        .repo-item:last-child { border-bottom: none; }
+
+        .repo-item:hover { opacity: 0.85; }
+
+        .repo-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .repo-icon { color: var(--text-4); flex-shrink: 0; }
+
+        .repo-name {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .repo-name a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .repo-name a:hover { color: var(--blue); }
+
+        .repo-lang-badge {
+            font-size: 11.5px;
+            color: var(--text-4);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ===== EDUCATION ===== */
+        .edu-timeline-item {
+            position: relative;
+            padding-left: 20px;
+            padding-bottom: 20px;
+            border-left: 2px solid var(--border-light);
+        }
+
+        .edu-timeline-item:last-child { padding-bottom: 0; }
+
+        .edu-dot {
+            position: absolute;
+            left: -5px;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--dot);
+        }
+
+        .edu-school {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .edu-degree {
+            font-size: 12.5px;
+            color: var(--text-3);
+        }
+
+        .edu-date {
+            font-size: 12px;
+            color: var(--text-4);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 11px;
+            color: var(--text-4);
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-left {
+                position: relative;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 36px 24px;
+            }
+
+            .content-section { padding: 32px 24px; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+
+        @media print {
+            .layout { grid-template-columns: 1fr; }
+            .panel-left { position: relative; height: auto; border: none; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- ==================== LEFT PANEL ==================== -->
+    <aside class="panel-left">
+        <div class="profile">
+            <h1 class="profile-name">Koichi Fumikatsu</h1>
+            <p class="profile-title">IT Infrastructure Engineer &amp; Team Lead</p>
+            <p class="profile-bio">
+                +3 years building and scaling IT infrastructure across 7 offices and 200+ users. Full-stack capabilities from network design to backend development. Currently leading IT at a Colombian legal firm.
+            </p>
+
+            <ul class="profile-info">
+                <li>
+                    <svg width="16" height="16" fill="none" stroke="#8b8fa3" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <a href="mailto:fumikatsu.koichi@gmail.com">fumikatsu.koichi@gmail.com</a>
+                </li>
+                <li>
+                    <svg width="16" height="16" fill="none" stroke="#8b8fa3" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Cali, Colombia
+                </li>
+                <li>
+                    <svg width="16" height="16" fill="none" stroke="#8b8fa3" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                    +57 302 244 9235
+                </li>
+            </ul>
+
+            <div class="social-links">
+                <a href="https://github.com/KoichiFumikatsu" target="_blank" rel="noopener" aria-label="GitHub">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <a href="https://linkedin.com/in/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#skills"><span class="nav-dot"></span> Core Skills</a></li>
+                <li><a href="#projects"><span class="nav-dot"></span> Projects</a></li>
+                <li><a href="#experience"><span class="nav-dot"></span> Experience</a></li>
+                <li><a href="#repos"><span class="nav-dot"></span> GitHub Repos</a></li>
+                <li><a href="#education"><span class="nav-dot"></span> Education</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- ==================== RIGHT PANEL ==================== -->
+    <main class="panel-right">
+
+        <!-- SKILLS -->
+        <section class="content-section" id="skills">
+            <div class="section-header">
+                <h2 class="section-title">Core Skills</h2>
+            </div>
+            <div class="section-divider"></div>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-icon">
+                        <svg width="16" height="16" fill="none" stroke="#8b8fa3" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+                        <span class="skill-label">Networking</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="tag">Omada SDN</span>
+                        <span class="tag">Multi-WAN</span>
+                        <span class="tag">VLANs</span>
+                        <span class="tag">NAT</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-icon">
+                        <svg width="16" height="16" fill="none" stroke="#8b8fa3" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                        <span class="skill-label">Servers &amp; Linux</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="tag">Ubuntu</span>
+                        <span class="tag">Nginx</span>
+                        <span class="tag">Nextcloud</span>
+                        <span class="tag">Hestia</span>
+                        <span class="tag">RAID</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-icon">
+                        <svg width="16" height="16" fill="none" stroke="#8b8fa3" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        <span class="skill-label">Development</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="tag">C# .NET 8</span>
+                        <span class="tag">PHP MVC</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">REST APIs</span>
+                        <span class="tag">Next.js</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-icon">
+                        <svg width="16" height="16" fill="none" stroke="#8b8fa3" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
+                        <span class="skill-label">VoIP &amp; Automation</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="tag">Grandstream UCM</span>
+                        <span class="tag">SIP</span>
+                        <span class="tag">Webhooks</span>
+                        <span class="tag">Discord Bots</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="content-section" id="projects">
+            <div class="section-header">
+                <h2 class="section-title">Projects</h2>
+            </div>
+            <div class="section-divider"></div>
+
+            <div class="projects-grid">
+
+                <a href="https://github.com/KoichiFumikatsu/AZCKeeper" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-card-header">
+                        <span class="project-card-name">AZCKeeper</span>
+                        <svg class="project-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </div>
+                    <p class="project-card-desc">Employee monitoring desktop app with web admin panel. Screenshots, activity tracking, and real-time reporting for 200+ users across 7 offices.</p>
+                    <div class="project-card-footer">
+                        <span class="project-lang"><span class="lang-dot csharp"></span> C#</span>
+                        <span class="project-lang"><span class="lang-dot php"></span> PHP</span>
+                        <span class="project-tag prod">Production</span>
+                    </div>
+                </a>
+
+                <a href="https://github.com/KoichiFumikatsu/kelsieapp" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-card-header">
+                        <span class="project-card-name">KelsieApp</span>
+                        <svg class="project-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </div>
+                    <p class="project-card-desc">Full-stack personal management OS. Finances, health, education, work, and household modules. Designed architecture and product vision.</p>
+                    <div class="project-card-footer">
+                        <span class="project-lang"><span class="lang-dot typescript"></span> TypeScript</span>
+                        <span class="project-lang"><span class="lang-dot nextjs"></span> Next.js</span>
+                        <span class="project-tag prod">Production</span>
+                    </div>
+                </a>
+
+                <a href="https://localfy.com.co" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-card-header">
+                        <span class="project-card-name">Localfy</span>
+                        <svg class="project-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </div>
+                    <p class="project-card-desc">Commercial real estate marketplace. Full backend REST API development for property listing, search, and management.</p>
+                    <div class="project-card-footer">
+                        <span class="project-lang"><span class="lang-dot php"></span> PHP</span>
+                        <span class="project-lang"><span class="lang-dot javascript"></span> JavaScript</span>
+                        <span class="project-tag prod">Production</span>
+                    </div>
+                </a>
+
+                <a href="https://dsl.azc.com.co" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-card-header">
+                        <span class="project-card-name">DSL &mdash; Legal Security Diagnostic</span>
+                        <svg class="project-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </div>
+                    <p class="project-card-desc">Internal legal security diagnostic tool for AZC. Automates compliance assessments and generates reports for the legal team.</p>
+                    <div class="project-card-footer">
+                        <span class="project-lang"><span class="lang-dot php"></span> PHP</span>
+                        <span class="project-tag prod">Production</span>
+                    </div>
+                </a>
+
+                <a href="https://danielos8900.itch.io/altergeist" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-card-header">
+                        <span class="project-card-name">Altergeist</span>
+                        <svg class="project-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </div>
+                    <p class="project-card-desc">2D isometric puzzle game built for the Platzi Game Jam 2020. Developed as a team of 3. Published on itch.io.</p>
+                    <div class="project-card-footer">
+                        <span class="project-tag game">Game Jam</span>
+                    </div>
+                </a>
+
+                <a href="https://github.com/KoichiFumikatsu/ModularAZC" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-card-header">
+                        <span class="project-card-name">ModularAZC</span>
+                        <svg class="project-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </div>
+                    <p class="project-card-desc">Modular web management system for AZC Legal. PHP-based internal tool for operational processes.</p>
+                    <div class="project-card-footer">
+                        <span class="project-lang"><span class="lang-dot php"></span> PHP</span>
+                        <span class="project-tag dev">Internal</span>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section class="content-section" id="experience">
+            <div class="section-header">
+                <h2 class="section-title">Experience</h2>
+            </div>
+            <div class="section-divider"></div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-header">
+                        <span class="timeline-role">IT Team Lead</span>
+                        <span class="timeline-date">Aug 2022 &mdash; Present</span>
+                    </div>
+                    <div class="timeline-company">Grupo AZC S.A.S</div>
+                    <p class="timeline-desc">
+                        Scaled IT department from solo operator to a structured team of 4 (L1/L2/L3). Led tech expansion from 1 office with 20 users to 7 offices across 2 cities serving 200+ users. Designed and deployed full network infrastructure, Linux servers, VoIP systems, and built custom internal tools.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-header">
+                        <span class="timeline-role">Remote IT Support (L1/L2)</span>
+                        <span class="timeline-date">Mar 2021 &mdash; Dec 2021</span>
+                    </div>
+                    <div class="timeline-company">Siesa</div>
+                    <p class="timeline-desc">
+                        Provided remote technical support for enterprise ERP platform users. Diagnosed and resolved network, configuration, and system access issues.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- GITHUB REPOS -->
+        <section class="content-section" id="repos">
+            <div class="section-header">
+                <h2 class="section-title">GitHub Repositories</h2>
+            </div>
+            <div class="section-divider"></div>
+
+            <div class="repos-list">
+                <div class="repo-item">
+                    <div class="repo-left">
+                        <svg class="repo-icon" width="16" height="16" fill="none" stroke="#5f6378" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                        <div class="repo-name"><a href="https://github.com/KoichiFumikatsu/kelsieapp" target="_blank">kelsieapp</a></div>
+                    </div>
+                    <span class="repo-lang-badge"><span class="lang-dot typescript"></span> TypeScript</span>
+                </div>
+
+                <div class="repo-item">
+                    <div class="repo-left">
+                        <svg class="repo-icon" width="16" height="16" fill="none" stroke="#5f6378" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                        <div class="repo-name"><a href="https://github.com/KoichiFumikatsu/AZCKeeper" target="_blank">AZCKeeper</a></div>
+                    </div>
+                    <span class="repo-lang-badge"><span class="lang-dot php"></span> PHP</span>
+                </div>
+
+                <div class="repo-item">
+                    <div class="repo-left">
+                        <svg class="repo-icon" width="16" height="16" fill="none" stroke="#5f6378" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                        <div class="repo-name"><a href="https://github.com/KoichiFumikatsu/ModularAZC" target="_blank">ModularAZC</a></div>
+                    </div>
+                    <span class="repo-lang-badge"><span class="lang-dot php"></span> PHP</span>
+                </div>
+
+                <div class="repo-item">
+                    <div class="repo-left">
+                        <svg class="repo-icon" width="16" height="16" fill="none" stroke="#5f6378" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                        <div class="repo-name"><a href="https://github.com/KoichiFumikatsu/Pruebas_DSL" target="_blank">Pruebas_DSL</a></div>
+                    </div>
+                    <span class="repo-lang-badge"><span class="lang-dot css"></span> CSS</span>
+                </div>
+
+                <div class="repo-item">
+                    <div class="repo-left">
+                        <svg class="repo-icon" width="16" height="16" fill="none" stroke="#5f6378" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                        <div class="repo-name"><a href="https://github.com/KoichiFumikatsu/testwavewhats" target="_blank">testwavewhats</a></div>
+                    </div>
+                    <span class="repo-lang-badge"><span class="lang-dot javascript"></span> JavaScript</span>
+                </div>
+
+                <div class="repo-item">
+                    <div class="repo-left">
+                        <svg class="repo-icon" width="16" height="16" fill="none" stroke="#5f6378" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                        <div class="repo-name"><a href="https://github.com/KoichiFumikatsu/registro_uno" target="_blank">registro_uno</a></div>
+                    </div>
+                    <span class="repo-lang-badge"><span class="lang-dot csharp"></span> C#</span>
+                </div>
+
+                <div class="repo-item">
+                    <div class="repo-left">
+                        <svg class="repo-icon" width="16" height="16" fill="none" stroke="#5f6378" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                        <div class="repo-name"><a href="https://github.com/KoichiFumikatsu/reg.azclegal" target="_blank">reg.azclegal</a></div>
+                    </div>
+                    <span class="repo-lang-badge"><span class="lang-dot csharp"></span> C#</span>
+                </div>
+
+                <div class="repo-item">
+                    <div class="repo-left">
+                        <svg class="repo-icon" width="16" height="16" fill="none" stroke="#5f6378" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                        <div class="repo-name"><a href="https://github.com/KoichiFumikatsu/ManagerAZC" target="_blank">ManagerAZC</a></div>
+                    </div>
+                    <span class="repo-lang-badge"><span class="lang-dot html"></span> HTML</span>
+                </div>
+
+                <div class="repo-item">
+                    <div class="repo-left">
+                        <svg class="repo-icon" width="16" height="16" fill="none" stroke="#5f6378" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                        <div class="repo-name"><a href="https://github.com/KoichiFumikatsu/ClaudeChats" target="_blank">ClaudeChats</a></div>
+                    </div>
+                    <span class="repo-lang-badge"><span class="lang-dot" style="background:#555"></span> Markdown</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section class="content-section" id="education">
+            <div class="section-header">
+                <h2 class="section-title">Education</h2>
+            </div>
+            <div class="section-divider"></div>
+
+            <div>
+                <div class="edu-timeline-item">
+                    <div class="edu-dot"></div>
+                    <div class="edu-school">Universidad Aut&oacute;noma de Occidente</div>
+                    <div class="edu-degree">Multimedia Engineering &mdash; 7th semester (in progress)</div>
+                    <div class="edu-date">2019 &mdash; Present</div>
+                </div>
+
+                <div class="edu-timeline-item">
+                    <div class="edu-dot"></div>
+                    <div class="edu-school">Polit&eacute;cnico de Colombia</div>
+                    <div class="edu-degree">Project Management (in progress)</div>
+                    <div class="edu-date">2025</div>
+                </div>
+
+                <div class="edu-timeline-item">
+                    <div class="edu-dot"></div>
+                    <div class="edu-school">MINTIC &middot; Parquesoft</div>
+                    <div class="edu-degree">Software Development</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="footer">
+            &copy; 2026 Koichi Fumikatsu &mdash; Built with care
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
